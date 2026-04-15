@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Dondon - The Royal Book ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+<style>
+    :root { --accent: #ff4d6d; --gold: #ffd700; }
+    body { margin: 0; background: black; color: white; overflow: hidden; font-family: 'Dancing Script', cursive; display: flex; justify-content: center; align-items: center; height: 100vh; }
+
+    /* نجوم الخلفية */
+    .star { position: absolute; background: white; border-radius: 50%; opacity: 0.5; animation: twinkle var(--d) infinite; }
+    @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.2); } }
+
+    /* العد التنازلي */
+    #countdown-wrap { position: fixed; inset: 0; display: flex; justify-content: center; align-items: center; background: black; z-index: 5000; font-size: 100px; color: var(--accent); }
+
+    /* الكتاب */
+    .book { position: relative; width: 300px; height: 400px; perspective: 1500px; z-index: 10; display: none; }
+    .page { 
+        position: absolute; width: 100%; height: 100%; background: #fffafb; color: #333; 
+        transform-origin: left; transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+        cursor: pointer; border-radius: 0 10px 10px 0; display: flex; flex-direction: column; 
+        justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;
+        box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
+        backface-visibility: hidden;
+    }
+    .page img { width: 100%; height: 80%; object-fit: cover; border-radius: 5px; }
+    .page.flip { transform: rotateY(-180deg); }
+
+    /* المرحلة النهائية */
+    #final-stage { 
+        position: fixed; inset: 0; background: black; z-index: 3000; display: none; 
+        flex-direction: column; justify-content: space-between; align-items: center;
+        padding: 20px 0;
+    }
+
+    .heart-explosion-area {
+        position: relative;
+        flex-grow: 1;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .big-heart { 
+        font-size: 140px; 
+        color: var(--accent); 
+        animation: pulse 0.8s infinite alternate; 
+        filter: drop-shadow(0 0 20px var(--accent));
+        z-index: 1;
+    }
+    @keyframes pulse { to { transform: scale(1.1); } }
+
+    /* الدوائر - تم تصغير الحجم ليكون أنيقاً */
+    .photo-circle { 
+        position: absolute; 
+        width: 70px; /* حجم أصغر وأكثر تناسقاً */
+        height: 70px; 
+        border-radius: 50%; 
+        border: 2px solid var(--accent); 
+        object-fit: cover; 
+        opacity: 0; 
+        transition: 0.8s ease-out;
+        z-index: 2;
+    }
+
+    /* منطقة النص بالأسفل */
+    .final-content-area {
+        text-align: center;
+        margin-bottom: 30px;
+        z-index: 10;
+    }
+
+    .closing-quote { 
+        font-family: 'Playfair Display', serif; 
+        font-size: 20px; 
+        color: var(--gold); 
+        margin-bottom: 15px;
+    }
+    
+    .final-btn { 
+        padding: 12px 30px; 
+        background: var(--accent); 
+        color: white; 
+        border: none; 
+        border-radius: 25px; 
+        cursor: pointer; 
+        font-size: 18px; 
+    }
+
+    #our-photo-screen { position: fixed; inset: 0; background: black; z-index: 6000; display: none; flex-direction: column; justify-content: center; align-items: center; animation: fadeIn 1s; }
+    #our-photo-screen img { 
+        max-width: 600px; /* تحديد أقصى عرض */
+        max-height: 500px; /* تحديد أقصى طول */
+        border: 5px solid white; 
+        border-radius: 10px; 
+    }
+</style>
+</head>
+<body>
+
+    <div id="countdown-wrap">3</div>
+
+    <div class="book" id="book">
+        <div class="page" onclick="turnPage(this, true)"><h3>Click for Final Surprise ❤️</h3><p>Open for the Heart</p></div>
+        <div class="page" onclick="turnPage(this)"><img src="jpg\photo 3.png"><h3>My Sweet Dondon</h3></div>
+        <div class="page" onclick="turnPage(this)"><img src="jpg\photo 2.png"><h3>Every Moment with you</h3></div>
+        <div class="page" onclick="turnPage(this)"><img src="jpg\photo 1.jpg"><h3>Happy Birthday</h3></div>
+        <div class="page" onclick="turnPage(this)"><h1>For Dondon ❤️</h1><div style="font-size: 60px;">💝</div><p>Tap to Open Story</p></div>
+    </div>
+
+    <div id="final-stage">
+        <div class="heart-explosion-area" id="explosion-area">
+            <div class="big-heart">❤️</div>
+        </div>
+
+        <div class="final-content-area">
+            <div class="closing-quote">
+                "You are my today and all of my tomorrows." <br>
+                <span style="font-size: 28px; color: var(--accent);">Happy Birthday, Dondon!</span>
+            </div>
+            <button class="final-btn" onclick="showBigPhoto()">TAP FOR OUR SPECIAL SURPRISE 💖</button>
+        </div>
+    </div>
+
+    <div id="our-photo-screen">
+        <img src="jpg\last photo.jpg" alt="Dondon & Me" onerror="this.src='https://picsum.photos/1080/1920?loves'">
+        <h2 style="color:var(--gold); margin-top:20px;">Forever Together, Dondon ❤️</h2>
+        <button onclick="document.getElementById('our-photo-screen').style.display='none'" style="background:none; border:1px solid white; color:white; margin-top:10px; padding:5px 15px; border-radius:15px; cursor:pointer;">Close</button>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="https://cdn.pixabay.com/audio/2022/11/22/audio_feb643c162.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // النجوم
+        for (let i = 0; i < 150; i++) {
+            let s = document.createElement('div'); s.className = 'star';
+            s.style.width = s.style.height = Math.random()*3+'px';
+            s.style.top = Math.random()*100+'vh'; s.style.left = Math.random()*100+'vw';
+            s.style.setProperty('--d', Math.random()*3+2+'s'); document.body.appendChild(s);
+        }
+
+        let c = 3;
+        const timer = setInterval(() => {
+            c--;
+            if (c > 0) document.getElementById('countdown-wrap').innerText = c;
+            else {
+                clearInterval(timer);
+                document.getElementById('countdown-wrap').style.display = 'none';
+                document.getElementById('book').style.display = 'block';
+            }
+        }, 1000);
+
+        let musicStarted = false;
+        function turnPage(page, isLast = false) {
+            if (!musicStarted) {
+                document.getElementById('bgMusic').play().catch(e => {});
+                musicStarted = true;
+            }
+            page.classList.add('flip');
+            if(isLast) {
+                setTimeout(() => {
+                    document.getElementById('book').style.display = 'none';
+                    document.getElementById('final-stage').style.display = 'flex';
+                    setTimeout(explodePhotos, 300);
+                }, 1000);
+            }
+        }
+
+        function explodePhotos() {
+    const stage = document.getElementById('explosion-area');
+    const total = 28; 
+    const circleRadius = 35;
+
+    // قائمة بصورك (حط أسماء الصور اللي عندك في الفولدر)
+    const myPhotos = [
+        "101.png", 
+        "102.png", 
+        "103.png",
+        "132.png", 
+        "105.png", 
+        "106.png",
+        "107.png", 
+        "108.png", 
+        "131.png",
+        "110.png", 
+        "116.png", 
+        "112.png",
+        "134.png", 
+        "133.png", 
+        "115.png",
+        "111.png", 
+        "117.png", 
+        "118.png",
+        "119.png", 
+        "120.png", 
+        "121.png",
+        "122.png", 
+        "123.png", 
+        "124.png",
+        "125.png", 
+        "126.png", 
+        "127.png",
+        "128.png", 
+        "129.png", 
+        "130.png",
+
+        // تقدر تكررهم أو تضيف صور أكتر هنا
+    ];
+
+    for (let i = 0; i < total; i++) {
+        const img = document.createElement('img');
+        
+        // هنا الكود بيختار صورة من القائمة بتاعتك بالترتيب
+        let photoName = myPhotos[i % myPhotos.length]; 
+        img.src = `jpg/${photoName}`;
+        
+        img.className = 'photo-circle';
+        
+        const angle = (i / total) * Math.PI * 2;
+        const x = 280 * Math.pow(Math.sin(angle), 3); 
+        const y = -220 * (Math.cos(angle) - (5/13)*Math.cos(2*angle) - (2/13)*Math.cos(3*angle) - (1/13)*Math.cos(4*angle));
+        
+        img.style.left = `calc(50% + ${x}px - ${circleRadius}px)`;
+        img.style.top = `calc(50% + ${y}px - ${circleRadius}px)`;
+        
+        stage.appendChild(img);
+        setTimeout(() => img.style.opacity = '1', i * 60);
+    }
+}
+        
+        
+
+        function showBigPhoto() {
+            document.getElementById('our-photo-screen').style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
